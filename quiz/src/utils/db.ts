@@ -13,15 +13,9 @@ export const mockQuizz = {
       correctAnswer: "Server-side rendering",
     },
     {
-      question: "What is the primary purpose of the Virtual DOM in React.js?",
-      choices: [
-        "To render components on the server",
-        "To create a physical representation of the DOM",
-        "To increase performance by minimizing DOM updates",
-        "To replace the Original DOM",
-      ],
-      type: "MCQs",
-      correctAnswer: "To increase performance by minimizing DOM updates",
+      question: "_____ provide a way to pass data from one component to another. Fill in the blank.",
+      type: "FIB",
+      correctAnswer: "Props",
     },
     {
       question: "Which type of framework is ReactJS primarily known as?",

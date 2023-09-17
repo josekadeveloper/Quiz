@@ -4,7 +4,7 @@ import AnswersTimer from '../AnswerTimer/AnswerTimer';
 import './quiz.scss';
 
 interface QuizProps {
-    questions: Array<{ question: string, choices: Array<string>, correctAnswer: string }>;
+    questions: Array<{ question: string, choices: Array<string>, correctAnswer: string, type: string }>;
 }
 
 const Quiz: React.FC<QuizProps> = ({ questions }) => {
@@ -14,8 +14,9 @@ const Quiz: React.FC<QuizProps> = ({ questions }) => {
     const [result, setResult] = useState(resultInitialState);
     const [showResult, setShowResult] = useState(false);
     const [showAnswerTimer, setShowAnswerTimer] = useState(true);
+    const [inputAnswer, setInputAnswer] = useState('');
 
-    const { question, choices, correctAnswer } = questions[currentQuestion];
+    const { question, choices, correctAnswer, type } = questions[currentQuestion];
 
     const onAnswerClick = (answer: string, index: number) => {
         setAnswerIdx(index);
@@ -25,7 +26,7 @@ const Quiz: React.FC<QuizProps> = ({ questions }) => {
         } else {
             setAnswer(false);
         }
-    }
+    };
 
     const onClickNext = (finalAnswer: boolean) => {
         setAnswerIdx(-1);
@@ -57,17 +58,43 @@ const Quiz: React.FC<QuizProps> = ({ questions }) => {
         setTimeout(() => {
             setShowAnswerTimer(true);
         })
-    }
+    };
 
     const onTryAgain = () => {
         setResult(resultInitialState);
         setShowResult(false);
-    }
+    };
 
     const handleTimeUp = () => {
         setAnswer(false);
         onClickNext(false);
-    }
+    };
+
+    const handleInputChange = (evt: { target: { value: React.SetStateAction<string>; }; })=> {
+        setInputAnswer(evt.target.value);
+
+        if (evt.target.value === correctAnswer) {
+            setAnswer(true);
+        } else {
+            setAnswer(false);
+        }
+    };
+
+    const getAnswerUI = () => {
+        if (type === 'FIB') {
+            return <input value={inputAnswer} onChange={handleInputChange} />
+        }
+
+        return choices.map((answer, index) => (
+            <li
+                onClick={() => onAnswerClick(answer, index)}
+                key={answer}
+                className={answerIdx === index ? 'selected-answer' : undefined}
+            >
+                {answer}
+            </li>
+        ))
+    };
 
     return (
         <main className='quiz'>
@@ -78,22 +105,10 @@ const Quiz: React.FC<QuizProps> = ({ questions }) => {
                 <span className='active-question-no'>{currentQuestion + 1}</span>
                 <span className='total-question'>/{questions.length}</span>
                 <h2>{question}</h2>
-                <ul>
-                    {
-                        choices.map((answer, index) => (
-                            <li
-                                onClick={() => onAnswerClick(answer, index)}
-                                key={answer}
-                                className={answerIdx === index ? 'selected-answer' : undefined}
-                            >
-                                {answer}
-                            </li>
-                        ))
-                    }
-                </ul>
+                <ul>{getAnswerUI()}</ul>
 
                 <footer className='next-question'>
-                    <button onClick={() => onClickNext(answer)} disabled={answerIdx === -1}>
+                    <button onClick={() => onClickNext(answer)} disabled={answerIdx === -1 && !inputAnswer}>
                         {currentQuestion === questions.length - 1 ? 'Finish' : 'Next'}
                     </button>
                 </footer>
