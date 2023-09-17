@@ -101,7 +101,7 @@ const Quiz: React.FC<QuizProps> = ({ questions }) => {
             {!showResult 
             ? (
             <>
-                {showAnswerTimer && <AnswersTimer duration={5} onTimeUp={handleTimeUp} />}
+                {showAnswerTimer && <AnswersTimer duration={40} onTimeUp={handleTimeUp} />}
                 <span className='active-question-no'>{currentQuestion + 1}</span>
                 <span className='total-question'>/{questions.length}</span>
                 <h2>{question}</h2>
