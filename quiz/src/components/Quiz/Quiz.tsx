@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { resultInitialState } from '../../utils/db';
-import './quiz.scss'
+import AnswersTimer from '../AnswerTimer/AnswerTimer';
+import './quiz.scss';
 
 interface QuizProps {
     questions: Array<{ question: string, choices: Array<string>, correctAnswer: string }>;
@@ -12,6 +13,7 @@ const Quiz: React.FC<QuizProps> = ({ questions }) => {
     const [answer, setAnswer] = useState(false);
     const [result, setResult] = useState(resultInitialState);
     const [showResult, setShowResult] = useState(false);
+    const [showAnswerTimer, setShowAnswerTimer] = useState(true);
 
     const { question, choices, correctAnswer } = questions[currentQuestion];
 
@@ -25,12 +27,13 @@ const Quiz: React.FC<QuizProps> = ({ questions }) => {
         }
     }
 
-    const onClickNext = () => {
+    const onClickNext = (finalAnswer: boolean) => {
         setAnswerIdx(-1);
+        setShowAnswerTimer(false);
         setResult((prev) => {
             let score;
 
-            answer === true
+            finalAnswer === true
                 ? score = {
                     ...prev,
                     score: prev.score + 5,
@@ -50,6 +53,10 @@ const Quiz: React.FC<QuizProps> = ({ questions }) => {
             setCurrentQuestion(0);
             setShowResult(true);
         }
+
+        setTimeout(() => {
+            setShowAnswerTimer(true);
+        })
     }
 
     const onTryAgain = () => {
@@ -57,11 +64,17 @@ const Quiz: React.FC<QuizProps> = ({ questions }) => {
         setShowResult(false);
     }
 
+    const handleTimeUp = () => {
+        setAnswer(false);
+        onClickNext(false);
+    }
+
     return (
-        <section className='quiz'>
+        <main className='quiz'>
             {!showResult 
             ? (
             <>
+                {showAnswerTimer && <AnswersTimer duration={5} onTimeUp={handleTimeUp} />}
                 <span className='active-question-no'>{currentQuestion + 1}</span>
                 <span className='total-question'>/{questions.length}</span>
                 <h2>{question}</h2>
@@ -80,7 +93,7 @@ const Quiz: React.FC<QuizProps> = ({ questions }) => {
                 </ul>
 
                 <footer className='next-question'>
-                    <button onClick={onClickNext} disabled={answerIdx === -1}>
+                    <button onClick={() => onClickNext(answer)} disabled={answerIdx === -1}>
                         {currentQuestion === questions.length - 1 ? 'Finish' : 'Next'}
                     </button>
                 </footer>
@@ -105,7 +118,7 @@ const Quiz: React.FC<QuizProps> = ({ questions }) => {
                 </button>
             </section>
             }
-        </section>
+        </main>
     );
 };
 

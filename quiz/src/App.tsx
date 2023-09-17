@@ -7,11 +7,7 @@ function App() {
       <header>
         <h1>Let's Go to answer differents questions</h1>
       </header>
-      <main>
-        <section>
-          <Quiz questions={mockQuizz.questions} />
-        </section>
-      </main>
+      <Quiz questions={mockQuizz.questions} />
     </>
   )
 }
