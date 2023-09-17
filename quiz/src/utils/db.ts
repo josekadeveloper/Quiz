@@ -40,6 +40,11 @@ export const mockQuizz = {
       correctAnswer: "Using props",
     },
     {
+      question: "_____ is used to compile JavaScript code?",
+      type: "FIB",
+      correctAnswer: "Babel",
+    },
+    {
       question: "In which programming language is React.js primarily written?",
       choices: [
         "Python",
@@ -51,25 +56,8 @@ export const mockQuizz = {
       correctAnswer: "JavaScript",
     },
     {
-      question: "What is the role of Babel in a React.js application?",
-      choices: [
-        "To interpret JavaScript code",
-        "To transpile JavaScript code",
-        "To compile JavaScript code",
-        "None of the above",
-      ],
-      type: "MCQs",
-      correctAnswer: "To compile JavaScript code",
-    },
-    {
-      question: "Which React method is used to update functional component's state?",
-      choices: [
-        "ComponentDidUpdate",
-        "ComponentWillMount",
-        "ComponentDidMount",
-        "setState",
-      ],
-      type: "MCQs",
+      question: "_______ is used to update functional component's state?",
+      type: "FIB",
       correctAnswer: "setState",
     },
     {
