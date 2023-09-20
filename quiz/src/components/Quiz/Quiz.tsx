@@ -5,7 +5,7 @@ import Result from '../Result/Result';
 import './quiz.scss';
 
 interface QuizProps {
-    questions: Array<{ question: string, choices: Array<string>, correctAnswer: string, type: string }>;
+    questions: Array<{ question: string, choices?: Array<string>, correctAnswer: string, type: string }>;
 }
 
 const Quiz: React.FC<QuizProps> = ({ questions }) => {
@@ -87,7 +87,7 @@ const Quiz: React.FC<QuizProps> = ({ questions }) => {
             return <input value={inputAnswer} onChange={handleInputChange} />
         }
 
-        return choices.map((answer, index) => (
+        return choices?.map((answer, index) => (
             <li
                 onClick={() => onAnswerClick(answer, index)}
                 key={answer}
