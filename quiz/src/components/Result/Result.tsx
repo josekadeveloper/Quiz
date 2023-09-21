@@ -13,7 +13,10 @@ const Result: React.FC<ResultProps> = ({ totalQuestions, result, onTryAgain }) =
     const [showScores, setShowScores] = useState(false);
 
     useEffect(() => {
-        setHighScores(JSON.parse(localStorage.getItem('highScores') || '') || []);
+        if (localStorage.getItem('highScores') !== null) {
+            setHighScores(JSON.parse(localStorage.getItem('highScores') || '') || []);
+        }
+
     }, []);
 
     const handleSave = () => {
@@ -65,12 +68,12 @@ const Result: React.FC<ResultProps> = ({ totalQuestions, result, onTryAgain }) =
                     </tr>
                 </thead>
                 <tbody>
-                    {highScores.map((highScore, i) => {
+                    {highScores?.map((highScore, i) => {
                         return (
-                            <tr key={`${highScore.score}${highScore.name}${i}`}>
+                            <tr key={`${highScore?.score}${highScore?.name}${i}`}>
                                 <td>{i + 1}</td>
-                                <td>{highScore.name}</td>
-                                <td>{highScore.score}</td>
+                                <td>{highScore?.name}</td>
+                                <td>{highScore?.score}</td>
                             </tr>
                         )
                     })}
