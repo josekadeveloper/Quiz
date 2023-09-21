@@ -81,3 +81,13 @@
         box-sizing: border-box;
     }
 }
+
+@media screen and (max-width: 500px) {
+    .quiz {
+        padding: 20px 40px;
+
+        button {
+            padding: 10px 20px;
+        }
+    }
+}
