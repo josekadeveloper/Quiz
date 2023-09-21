@@ -1,0 +1,34 @@
+@import '../../styles/colors';
+
+.game-options {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+    .start-game {
+      height: auto;
+      color: $bg;
+      background: linear-gradient(0deg, $primary 0%, $secondary 35%, $tertiary 100%);
+      border-radius: 5px;
+      margin-right: 10px;
+      margin-bottom: 10px;
+      cursor: pointer;
+    
+      &:hover {
+        background: $tertiary;
+      }
+    }
+    
+    .stop-game {
+      height: auto;
+      color: $bg;
+      background: linear-gradient(0deg, $primary 0%, $secondary 35%, $tertiary 100%);
+      border-radius: 5px;
+      margin-bottom: 10px;
+      cursor: pointer;
+    
+      &:hover {
+        background: $tertiary;
+      }
+    }
+}

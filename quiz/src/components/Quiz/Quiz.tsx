@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { resultInitialState } from '../../utils/db';
 import AnswersTimer from '../AnswerTimer/AnswerTimer';
 import Result from '../Result/Result';
+import Options from '../Options/Options';
 import './quiz.scss';
 
 interface QuizProps {
@@ -16,6 +17,7 @@ const Quiz: React.FC<QuizProps> = ({ questions }) => {
     const [showResult, setShowResult] = useState(false);
     const [showAnswerTimer, setShowAnswerTimer] = useState(true);
     const [inputAnswer, setInputAnswer] = useState('');
+    const [pauseGame, setPauseGame] = useState(false);
 
     const { question, choices, correctAnswer, type } = questions[currentQuestion];
 
@@ -72,7 +74,7 @@ const Quiz: React.FC<QuizProps> = ({ questions }) => {
         onClickNext(false);
     };
 
-    const handleInputChange = (evt: { target: { value: React.SetStateAction<string>; }; })=> {
+    const handleInputChange = (evt: { target: { value: React.SetStateAction<string>; }; }) => {
         setInputAnswer(evt.target.value);
 
         if (evt.target.value === correctAnswer) {
@@ -84,12 +86,12 @@ const Quiz: React.FC<QuizProps> = ({ questions }) => {
 
     const getAnswerUI = () => {
         if (type === 'FIB') {
-            return <input value={inputAnswer} onChange={handleInputChange} />
+            return <input value={inputAnswer} onChange={handleInputChange} disabled={pauseGame} />
         }
 
         return choices?.map((answer, index) => (
             <li
-                onClick={() => onAnswerClick(answer, index)}
+                onClick={() => !pauseGame && onAnswerClick(answer, index)}
                 key={answer}
                 className={answerIdx === index ? 'selected-answer' : undefined}
             >
@@ -98,24 +100,37 @@ const Quiz: React.FC<QuizProps> = ({ questions }) => {
         ))
     };
 
+    // Function to start the game
+    const startGame = () => {
+        setShowAnswerTimer(true);
+        setPauseGame(false);
+    }
+
+    // Function to stop the game
+    const stopGame = () => {
+        setShowAnswerTimer(false);
+        setPauseGame(true);
+    }
+
     return (
         <main className='quiz'>
-            {!showResult 
-            ? (
-            <>
-                {showAnswerTimer && <AnswersTimer duration={40} onTimeUp={handleTimeUp} />}
-                <span className='active-question-no'>{currentQuestion + 1}</span>
-                <span className='total-question'>/{questions.length}</span>
-                <h2>{question}</h2>
-                <ul>{getAnswerUI()}</ul>
+            {!showResult
+                ? (
+                    <>
+                        {showAnswerTimer && <AnswersTimer duration={40} onTimeUp={handleTimeUp} />}
+                        <Options startGame={startGame} stopGame={stopGame} />
+                        <span className='active-question-no'>{currentQuestion + 1}</span>
+                        <span className='total-question'>/{questions.length}</span>
+                        <h2>{question}</h2>
+                        <ul>{getAnswerUI()}</ul>
 
-                <footer className='next-question'>
-                    <button onClick={() => onClickNext(answer)} disabled={answerIdx === -1 && !inputAnswer}>
-                        {currentQuestion === questions.length - 1 ? 'Finish' : 'Next'}
-                    </button>
-                </footer>
-            </>
-            ) : <Result totalQuestions={questions.length} result={result} onTryAgain={onTryAgain}/>
+                        <footer className='next-question'>
+                            <button onClick={() => onClickNext(answer)} disabled={answerIdx === -1 && !inputAnswer && pauseGame}>
+                                {currentQuestion === questions.length - 1 ? 'Finish' : 'Next'}
+                            </button>
+                        </footer>
+                    </>
+                ) : <Result totalQuestions={questions.length} result={result} onTryAgain={onTryAgain} />
             }
         </main>
     );
