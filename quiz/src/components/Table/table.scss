@@ -9,5 +9,9 @@ table {
 
     tr {
         border: 2px solid $primary;
+
+        td {
+            width: 100vh;
+        }
     }
 }

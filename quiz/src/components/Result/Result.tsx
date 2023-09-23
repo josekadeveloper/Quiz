@@ -72,9 +72,7 @@ const Result: React.FC<ResultProps> = ({ totalQuestions, result, onTryAgain }) =
         <button onClick={handleTryAgain}>
             Try again
         </button>
-        {!showScores ? <><h3>
-            Enter your name bellow <br /> to save your score!
-        </h3>
+        {!showScores ? <>
             <div>
                 {!nameIsValid && <p className='wrong-name'>Name is taken!!</p>}
                 {nameIsEmpty && <p className='empty-name'>Name is empty, please enter your name!!</p>}

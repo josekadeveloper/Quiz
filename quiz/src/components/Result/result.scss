@@ -20,14 +20,16 @@
     }
 
     .wrong-name {
-        margin: 0;
+        margin-bottom: 0px;
+        margin-top: 20px;
         padding: 10px;
         font-weight: bold;
         color: $error;
     }
 
     .empty-name {
-        margin: 5px;
+        margin-bottom: 0px;
+        margin-top: 20px;
         font-weight: bold;
         color: $warning;
     }
