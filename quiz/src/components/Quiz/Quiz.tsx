@@ -15,9 +15,9 @@ const Quiz: React.FC<QuizProps> = ({ questions }) => {
     const [answer, setAnswer] = useState(false);
     const [result, setResult] = useState(resultInitialState);
     const [showResult, setShowResult] = useState(false);
-    const [showAnswerTimer, setShowAnswerTimer] = useState(true);
+    const [showAnswerTimer, setShowAnswerTimer] = useState(false);
     const [inputAnswer, setInputAnswer] = useState('');
-    const [pauseGame, setPauseGame] = useState(false);
+    const [pauseGame, setPauseGame] = useState(true);
 
     const { question, choices, correctAnswer, type } = questions[currentQuestion];
 
