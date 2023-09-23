@@ -19,15 +19,16 @@
         }
     }
 
-    table {
-        width: 100%;
-        text-align: left;
-        margin: 50px auto 20px;
-        border-collapse: collapse;
-        font-size: 15px;
+    .wrong-name {
+        margin: 0;
+        padding: 10px;
+        font-weight: bold;
+        color: $error;
+    }
 
-        tr {
-            border: 2px solid $primary;
-        }
+    .empty-name {
+        margin: 5px;
+        font-weight: bold;
+        color: $warning;
     }
 }

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import Table from '../Table/Table';
 import './result.scss';
 
 interface ResultProps {
@@ -9,14 +10,16 @@ interface ResultProps {
 
 const Result: React.FC<ResultProps> = ({ totalQuestions, result, onTryAgain }) => {
     const [name, setName] = useState('');
+    const [inputText, setInputText] = useState('');
     const [highScores, setHighScores] = useState(Array<{ name: string, score: number }>);
     const [showScores, setShowScores] = useState(false);
+    const [nameIsValid, setNameIsValid] = useState(true);
+    const [nameIsEmpty, setNameIsEmpty] = useState(true);
 
     useEffect(() => {
         if (localStorage.getItem('highScores') !== null) {
             setHighScores(JSON.parse(localStorage.getItem('highScores') || '') || []);
         }
-
     }, []);
 
     const handleSave = () => {
@@ -35,6 +38,21 @@ const Result: React.FC<ResultProps> = ({ totalQuestions, result, onTryAgain }) =
         setShowScores(false);
         setHighScores([]);
         onTryAgain();
+    }
+
+    const checkName = (name: string) => {
+        setNameIsEmpty(false);
+        if (name.trim() === "") {
+            setNameIsEmpty(true);
+            setInputText(name);
+        } else if (highScores?.filter(score => score.name.toLowerCase() === name.toLowerCase()).length !== 0) {
+            setNameIsValid(false);
+            setInputText(name);
+        } else {
+            setInputText(name);
+            setName(name);
+            setNameIsValid(true);
+        }
     }
 
     return <section className='result'>
@@ -57,28 +75,13 @@ const Result: React.FC<ResultProps> = ({ totalQuestions, result, onTryAgain }) =
         {!showScores ? <><h3>
             Enter your name bellow <br /> to save your score!
         </h3>
-            <input placeholder='Your Name' value={name} onChange={(evt) => setName(evt.target.value)} />
-            <button onClick={handleSave}>Save</button></> : <>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Ranking</th>
-                        <th>Name</th>
-                        <th>Score</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {highScores?.map((highScore, i) => {
-                        return (
-                            <tr key={`${highScore?.score}${highScore?.name}${i}`}>
-                                <td>{i + 1}</td>
-                                <td>{highScore?.name}</td>
-                                <td>{highScore?.score}</td>
-                            </tr>
-                        )
-                    })}
-                </tbody>
-            </table>
+            <div>
+                {!nameIsValid && <p className='wrong-name'>Name is taken!!</p>}
+                {nameIsEmpty && <p className='empty-name'>Name is empty, please enter your name!!</p>}
+                <input placeholder='Your Name' value={inputText} onChange={(evt) => checkName(evt.target.value)} />
+            </div>
+            <button onClick={handleSave} disabled={!nameIsValid || nameIsEmpty}>Save</button></> : <>
+            <Table highScores={highScores}/>
         </>}
     </section>;
 }
