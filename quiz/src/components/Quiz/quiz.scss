@@ -86,7 +86,20 @@
     .quiz {
         padding: 20px 40px;
 
+        .active-question-no {
+            font-size: 25px;
+        }
+
+        h2 {
+            font-size: 14px;
+        }
+
+        ul li {
+            font-size: 12px;
+        }
+
         button {
+            font-size: 12px;
             padding: 10px 20px;
         }
     }
