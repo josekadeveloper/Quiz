@@ -4,7 +4,7 @@ Quiz game developed in React, TypeScript and Sass
 
 ### Features
 
-![app](/Api.gif)
+![app](/App.gif)
 ### Built With
 [![React](https://img.shields.io/badge/React-22272E?style=for-the-badge&logo=react
 )](https://es.react.dev/)
