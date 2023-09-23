@@ -79,6 +79,15 @@ const Quiz: React.FC<QuizProps> = ({ questions }) => {
 
         if (evt.target.value === correctAnswer) {
             setAnswer(true);
+            setResult((prev) => {
+                const score = {
+                        ...prev,
+                        score: prev.score + 5,
+                        correctAnswers: prev.correctAnswers + 1,
+                    }
+    
+                return score;
+            });
         } else {
             setAnswer(false);
         }
